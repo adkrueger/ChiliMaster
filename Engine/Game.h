@@ -36,6 +36,8 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void DrawPlus(int x, int y, int r, int g, int b);
+	bool IsCollision(int x0, int y0, int x1, int y1);
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -47,6 +49,8 @@ private:
 	//    think about scope: remember it covered up the other x and y, get rid of declarations in Game.cpp
 	int x = 400;
 	int y = 300;
+	int fixedX = 200;
+	int fixedY = 200;
 
 
 	int vx = 0;

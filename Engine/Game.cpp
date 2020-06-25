@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include <iostream>
 
 Game::Game( MainWindow& wnd )
 	:
@@ -170,68 +171,67 @@ void Game::ComposeFrame()
 	if (cond) {
 		// make plus sign
 		// note input parameters, discuss each of them
-		/*
-		gfx.PutPixel(397, 300, 255, 255, 255);
-		gfx.PutPixel(398, 300, 255, 255, 255);
-		gfx.PutPixel(399, 300, 255, 255, 255);
-		gfx.PutPixel(400, 300, 255, 255, 255);
-		gfx.PutPixel(401, 300, 255, 255, 255);
-		gfx.PutPixel(402, 300, 255, 255, 255);
-		gfx.PutPixel(403, 300, 255, 255, 255);
-		gfx.PutPixel(400, 297, 255, 255, 255);
-		gfx.PutPixel(400, 298, 255, 255, 255);
-		gfx.PutPixel(400, 299, 255, 255, 255);
-		gfx.PutPixel(400, 300, 255, 255, 255);
-		gfx.PutPixel(400, 301, 255, 255, 255);
-		gfx.PutPixel(400, 302, 255, 255, 255);
-		gfx.PutPixel(400, 303, 255, 255, 255);
-		*/
-		gfx.PutPixel(x - 3, y, 255, 255, 255);
-		gfx.PutPixel(x - 2, y, 255, 255, 255);
-		gfx.PutPixel(x - 1, y, 255, 255, 255);
-		gfx.PutPixel(x, y, 255, 255, 255);
-		gfx.PutPixel(x + 1, y, 255, 255, 255);
-		gfx.PutPixel(x + 2, y, 255, 255, 255);
-		gfx.PutPixel(x + 3, y, 255, 255, 255);
-		gfx.PutPixel(x, y - 3, 255, 255, 255);
-		gfx.PutPixel(x, y - 2, 255, 255, 255);
-		gfx.PutPixel(x, y - 1, 255, 255, 255);
-		gfx.PutPixel(x, y, 255, 255, 255);
-		gfx.PutPixel(x, y + 1, 255, 255, 255);
-		gfx.PutPixel(x, y + 2, 255, 255, 255);
-		gfx.PutPixel(x, y + 3, 255, 255, 255);
+		DrawPlus(x, y, 255, 255, 255);
 	}
 	else if (otherCond) {
-		gfx.PutPixel(x - 3, y, 255, 0, 255);
-		gfx.PutPixel(x - 2, y, 255, 0, 255);
-		gfx.PutPixel(x - 1, y, 255, 0, 255);
-		gfx.PutPixel(x, y, 255, 0, 255);
-		gfx.PutPixel(x + 1, y, 255, 0, 255);
-		gfx.PutPixel(x + 2, y, 255, 0, 255);
-		gfx.PutPixel(x + 3, y, 255, 0, 255);
-		gfx.PutPixel(x, y - 3, 255, 0, 255);
-		gfx.PutPixel(x, y - 2, 255, 0, 255);
-		gfx.PutPixel(x, y - 1, 255, 0, 255);
-		gfx.PutPixel(x, y, 255, 0, 255);
-		gfx.PutPixel(x, y + 1, 255, 0, 255);
-		gfx.PutPixel(x, y + 2, 255, 0, 255);
-		gfx.PutPixel(x, y + 3, 255, 0, 255);
+		DrawPlus(x, y, 255, 0, 255);
 	}
 	else {
-		gfx.PutPixel(x - 3, y, 0, 255, 255);
-		gfx.PutPixel(x - 2, y, 0, 255, 255);
-		gfx.PutPixel(x - 1, y, 0, 255, 255);
-		gfx.PutPixel(x, y, 0, 255, 255);
-		gfx.PutPixel(x + 1, y, 0, 255, 255);
-		gfx.PutPixel(x + 2, y, 0, 255, 255);
-		gfx.PutPixel(x + 3, y, 0, 255, 255);
-		gfx.PutPixel(x, y - 3, 0, 255, 255);
-		gfx.PutPixel(x, y - 2, 0, 255, 255);
-		gfx.PutPixel(x, y - 1, 0, 255, 255);
-		gfx.PutPixel(x, y, 0, 255, 255);
-		gfx.PutPixel(x, y + 1, 0, 255, 255);
-		gfx.PutPixel(x, y + 2, 0, 255, 255);
-		gfx.PutPixel(x, y + 3, 0, 255, 255);
+		DrawPlus(x, y, 0, 255, 255);
 	}
 
+	// check for collisions
+	if (IsCollision(x, y, fixedX, fixedY)) {
+		DrawPlus(fixedX, fixedY, 255, 0, 0);
+
+		// need to add #include <iostream>, discuss including various files
+		// discuss std:: vs. "using namespace std;" (latter lets you print without typing std::
+		std::cout << "collide";
+	}
+	else {
+		DrawPlus(fixedX, fixedY, 255, 255, 255);
+	}
+}
+
+
+// double colon (scope resolution operator) says we want to declare a function in the Game class
+void Game::DrawPlus(int x, int y, int r, int g, int b) {
+	gfx.PutPixel(x - 3, y, r, g, b);
+	gfx.PutPixel(x - 2, y, r, g, b);
+	gfx.PutPixel(x - 1, y, r, g, b);
+	gfx.PutPixel(x, y, r, g, b);
+	gfx.PutPixel(x + 1, y, r, g, b);
+	gfx.PutPixel(x + 2, y, r, g, b);
+	gfx.PutPixel(x + 3, y, r, g, b);
+	gfx.PutPixel(x, y - 3, r, g, b);
+	gfx.PutPixel(x, y - 2, r, g, b);
+	gfx.PutPixel(x, y - 1, r, g, b);
+	gfx.PutPixel(x, y, r, g, b);
+	gfx.PutPixel(x, y + 1, r, g, b);
+	gfx.PutPixel(x, y + 2, r, g, b);
+	gfx.PutPixel(x, y + 3, r, g, b);
+}
+
+bool Game::IsCollision(int x0, int y0, int x1, int y1) {
+
+	/*
+	do this first, then ask if other ways to solve
+	if (x0 > x1 - 3 && x0 < x1 + 3) {
+		// discuss various operators, i.e. || and truth tables
+		if (y0 > y1 - 3 && y0 < y1 + 3) {
+			return true;
+		}
+	}
+	else { // ask if we need this else here
+		return false;
+	}
+
+	// discuss &&
+	if ((x0 > x1 - 3 && x0 < x1 + 3) && (y0 > y1 - 3 && y0 < y1 + 3)) {
+		return true;
+	}
+	*/
+
+	// lastly, discuss how this works and how you can return a straight up bool
+	return (x0 > x1 - 3 && x0 < x1 + 3) && (y0 > y1 - 3 && y0 < y1 + 3);
 }
